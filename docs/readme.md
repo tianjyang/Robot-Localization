@@ -1,7 +1,7 @@
 # Robotic Localization
 
 ## Background
-In robotics, localization refers to the method which answers the following question: where am I now? A particle filter represents one method to answering this question in a 2D space. At a high level, a particle filter assumes a robot is equally likely to be at any location in the world. It is able to narrow down it's belief based on measurements taken compared against the known map. This project is am implementation of such a method. Using only a range finder (with simulated noise), a virtual robot is able to determine it's location in a pre-mapped enviroment.
+In robotics, localization refers to the method which answers the following question: where am I now? A particle filter represents one method to answering this question in a 2D space. At a high level, a particle filter assumes a robot is equally likely to be at any location in the world. It is able to narrow down it's belief based on measurements compared with expected measurements of the known map. This project is am implementation of such a method. Using only a range finder (with simulated noise), a virtual robot is able to determine it's location in a pre-mapped enviroment.
 
 ## Functionality
 Robotic Localization will have the ability to
