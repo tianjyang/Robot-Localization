@@ -6,6 +6,7 @@ In robotics, localization refers to the method which answers the following quest
 ## Functionality
 Robotic Localization will have the ability to
 
+1. Implement a localization algorithm so that a robot can determine it's location in a pre-mapped world
 1. Control a virtual robot with WASD arrow keys
 1. Collision detection
 1. Vector math to calculate position
