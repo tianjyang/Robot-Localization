@@ -29,7 +29,7 @@ This app will be implemented using the following libraries:
 ## Implementation Timeline
 Day 1:  
 Complete definition of robot, static object, and simulation container classes
-* Define a robot object class which is an extension of the EaselJS Shape class
+* Define a robot object class which is an extension of the EaselJS container class
 * Define a method to move the robot
 * Define an update state method to move the robot
 * Bind event handlers to move the robot
