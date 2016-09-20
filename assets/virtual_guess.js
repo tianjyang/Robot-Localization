@@ -1,15 +1,16 @@
-import * as Util from './utils'
+import * as Util from './utils';
+import VirtualBot from './virtual_robot';
 
-class VirtualBot extends createjs.Container {
+class VirtualGuess extends VirtualBot {
   constructor (stage,simulation) {
-    super();
+    super(stage,simulation);
     this.stageVar = stage;
     this.simulation = simulation;
     stage.addChild(this);
     this.drawSelf();
-    this.measurement = []
-
-    this.travelDistance = 0
+    this.measurement = [];
+    this.travelDistance = 0;
+    this.takeMeasurement()
     return this;
   }
 
@@ -22,7 +23,7 @@ class VirtualBot extends createjs.Container {
     this.stageVar.update();
     let startingPoint, distance;
     startingPoint = [this.x,this.y];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 360; i+=5) {
       startingPoint = [this.x,this.y];
       distance = this.takeSensorReading(startingPoint, this.rotation + i);
       this.measurement[i] = distance
@@ -33,10 +34,9 @@ class VirtualBot extends createjs.Container {
 
   takeSensorReading(startingPoint,angle) {
     let radians = angle*Math.PI/180;
-    let startPoint = startingPoint
+    let startPoint = startingPoint;
     let endPoint = startingPoint.slice(0);
-    let keepLooping = true
-    let avgColor
+    let keepLooping = true;
     const colorAtPix = (x,y) => {
       return Array.from(this.stageVar.canvas.getContext('2d').getImageData(x,y,5,5).data);
     };
@@ -56,16 +56,9 @@ class VirtualBot extends createjs.Container {
 
   }
 
-  updatePosition(inputVelocity) {
-    this.rotation += inputVelocity[1]*(inputVelocity[0]||1);
-    let radians = (this.rotation)*Math.PI/180;
-    this.x += inputVelocity[0]*Math.cos(radians);
-    this.y += inputVelocity[0]*Math.sin(radians);
-    this.travelDistance += Math.abs(inputVelocity[0]);
-  }
-
   drawSelf() {
-      guessHead.graphics.beginFill("rgba(255,0,0,0.5)").drawPolyStar(0,0,20,3,0,0);
+    let guessHead = new createjs.Shape()
+      guessHead.graphics.beginFill("rgba(255,0,0,0.05)").drawPolyStar(0,0,20,3,0,0);
       guessHead.x = -5;
       guessHead.y = 0;
       guessHead.scaleX = 1.5;
@@ -73,4 +66,4 @@ class VirtualBot extends createjs.Container {
   }
 }
 
-export default VirtualBot;
+export default VirtualGuess;

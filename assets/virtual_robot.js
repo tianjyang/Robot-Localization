@@ -9,6 +9,9 @@ class VirtualBot extends createjs.Container {
     this.drawSelf();
     this.measurement = []
     this.travelDistance = 0
+    this.x = Math.random() * 500;
+    this.y = Math.random() * 500;
+    this.rotation = Math.random() * 360
     return this;
   }
 
@@ -21,7 +24,7 @@ class VirtualBot extends createjs.Container {
     this.stageVar.update();
     let startingPoint, distance;
     startingPoint = [this.x,this.y];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 360; i+= 5) {
       startingPoint = [this.x,this.y];
       distance = this.takeSensorReading(startingPoint, this.rotation + i);
       this.measurement[i] = distance
@@ -52,7 +55,6 @@ class VirtualBot extends createjs.Container {
     }
     let vector = Util.vectorBetweenCenters(startPoint,endPoint);
     return Util.vectorMagnitude(vector);
-
   }
 
   updatePosition(inputVelocity) {

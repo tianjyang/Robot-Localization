@@ -1,4 +1,6 @@
 import VirtualBot from './virtual_robot';
+import VirtualGuess from './virtual_guess';
+import * as Util from './utils';
 
 class SimulationContainer {
   constructor(stage) {
@@ -7,15 +9,23 @@ class SimulationContainer {
     window.stage = stage;
     this.run = this.run.bind(this);
     this.handleKeyboard = this.handleKeyboard.bind(this);
-
-
+    this.guesses = [];
+    this.scores = [];
     this.addWalls();
     this.addLandMarks();
     this.robot = new VirtualBot(stage,this);
     window.robot = this.robot;
     this.robot.x = 250;
     this.robot.y =250;
+    this.populateGuesses();
     stage.update();
+  }
+
+  setSimilarityScores(){
+    this.guesses.forEach((el)=>{
+      this.scores.push(Util.arraySimilarityScalar(this.robot.measurement,el.measurement));
+    })
+    debugger
   }
 
 
@@ -38,11 +48,18 @@ class SimulationContainer {
   }
 
 
+  populateGuesses(){
+    for (var i = 0; i < 100; i++) {
+      this.guesses.push(new VirtualGuess(this.stage,this))
+    }
+  }
+
   run () {
 
     const handleTick = (e) => {
       if (this.robot.travelDistance >= 50) {
         this.robot.takeMeasurement();
+        this.setSimilarityScores();
         this.robot.travelDistance = 0;
       } else {
         this.robot.updatePosition(this.handleKeyboard());
@@ -54,13 +71,9 @@ class SimulationContainer {
 
 
     this.ticker = createjs.Ticker;
-    // this.ticker.framerate = 60;
     this.ticker.addEventListener("tick",handleTick.bind(this));
 
 
-  }
-
-  checkRobotCollision(){
   }
 
   addWalls(){

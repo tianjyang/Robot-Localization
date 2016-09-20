@@ -103,3 +103,16 @@ export const hasBlack = (rgbaArray) => {
   }
   return output;
 };
+
+export const arraySimilarityScalar = (measurement,array2) => {
+  let output = 0;
+  for (let i = 0; i < 360; i+= 5) {
+    let measuredValue = measurement[i];
+    let guessedValue = array2[i];
+    let difference = Math.abs(measuredValue - guessedValue);
+    difference = difference / measuredValue;
+    difference = 1-difference;
+    output += difference;
+  }
+  return output / measurement.length
+};
