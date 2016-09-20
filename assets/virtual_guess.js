@@ -8,6 +8,7 @@ class VirtualBot extends createjs.Container {
     stage.addChild(this);
     this.drawSelf();
     this.measurement = []
+
     this.travelDistance = 0
     return this;
   }
@@ -64,38 +65,11 @@ class VirtualBot extends createjs.Container {
   }
 
   drawSelf() {
-      let robotBody = new createjs.Shape()
-      robotBody.graphics.beginFill("blue").drawRect(0,0,50,50);
-      robotBody.x = -25
-      robotBody.y = -25
-      let robotWheel1 = new createjs.Shape()
-      robotWheel1.graphics.beginFill("grey").drawRect(0,0,10,5);
-      robotWheel1.x = 15;
-      robotWheel1.y = -30
-      let robotWheel2 = new createjs.Shape();
-      robotWheel2.graphics.beginFill("grey").drawRect(0,0,10,5);
-      robotWheel2.x = 15;
-      robotWheel2.y = 25;
-      let robotWheel3 = new createjs.Shape()
-      robotWheel3.graphics.beginFill("grey").drawRect(0,0,10,5);
-      robotWheel3.x = -25;
-      robotWheel3.y = 25;
-      let robotWheel4 = new createjs.Shape()
-      robotWheel4.graphics.beginFill("grey").drawRect(0,0,10,5);
-      robotWheel4.x = -25;
-      robotWheel4.y = -30;
-      let robotHead = new createjs.Shape()
-      robotHead.graphics.beginFill("yellow").drawPolyStar(0,0,20,3,0,0);
-      robotHead.x = -5;
-      robotHead.y = 0;
-      robotHead.scaleX = 1.5;
-
-      this.addChild(robotBody);
-      this.addChild(robotWheel1);
-      this.addChild(robotWheel2);
-      this.addChild(robotWheel3);
-      this.addChild(robotWheel4);
-      this.addChild(robotHead);
+      guessHead.graphics.beginFill("rgba(255,0,0,0.5)").drawPolyStar(0,0,20,3,0,0);
+      guessHead.x = -5;
+      guessHead.y = 0;
+      guessHead.scaleX = 1.5;
+      this.addChild(guessHead);
   }
 }
 
