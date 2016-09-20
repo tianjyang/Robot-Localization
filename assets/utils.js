@@ -111,10 +111,11 @@ export const arraySimilarityScalar = (measurement,array2) => {
     let guessedValue = array2[i];
     let difference = Math.abs(measuredValue - guessedValue);
     difference = difference / measuredValue;
-    difference = 1-difference;
+
     output += difference;
   }
-  return output;
+  output = output/measurement.length;
+  return 1/output;
 };
 
 window.arraySimilarityScalar = arraySimilarityScalar;

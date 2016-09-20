@@ -19,7 +19,7 @@ class VirtualBot extends createjs.Container {
     let startingPoint, distance;
     let index = 0
     startingPoint = [this.x,this.y];
-    for (let i = 0; i < 360; i+= 5) {
+    for (let i = 0; i <= 360; i+= 90) {
       startingPoint = [this.x,this.y];
       distance = this.takeSensorReading(startingPoint,i);
       this.measurement[index] = distance;

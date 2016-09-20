@@ -1,5 +1,6 @@
 import VirtualBot from './virtual_robot';
 import VirtualGuess from './virtual_guess';
+import { merge } from 'lodash';
 import * as Util from './utils';
 
 class SimulationContainer {
@@ -19,8 +20,8 @@ class SimulationContainer {
     this.robot.x = 250;
     this.robot.y =250;
     this.populateGuesses();
-    // this.robot.takeMeasurement();
-    // this.setSimilarityScores.bind(this)();
+    this.robot.takeMeasurement();
+    this.setSimilarityScores.bind(this)();
     stage.update();
   }
 
@@ -51,7 +52,8 @@ class SimulationContainer {
 
 
   populateGuesses(){
-    for (var i = 0; i < 1; i++) {
+    for (var i = 0; i < 50; i++) {
+      console.log("setting up guess number ",i);
       this.guesses.push(new VirtualGuess(this.stage,this))
     }
   }
@@ -62,6 +64,7 @@ class SimulationContainer {
       if (this.robot.travelDistance >= 50) {
         this.robot.takeMeasurement();
         this.setSimilarityScores();
+        console.log(this.scores);
         this.robot.travelDistance = 0;
       } else {
         this.robot.updatePosition(this.handleKeyboard());

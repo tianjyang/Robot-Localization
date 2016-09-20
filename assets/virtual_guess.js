@@ -17,7 +17,7 @@ class VirtualGuess extends createjs.Shape {
     let startingPoint, distance;
     let index = 0
     startingPoint = [this.x,this.y];
-    for (let i = 0; i < 1; i+=5) {
+    for (let i = 0; i < 360; i+=15) {
       startingPoint = [this.x,this.y];
       distance = this.takeSensorReading(startingPoint,i);
       this.measurement[index] = distance;
