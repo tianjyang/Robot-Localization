@@ -22,10 +22,10 @@ class SimulationContainer {
   }
 
   setSimilarityScores(){
-    this.guesses.forEach((el)=>{
-      this.scores.push(Util.arraySimilarityScalar(this.robot.measurement,el.measurement));
+    this.guesses.forEach((el,idx)=>{
+      this.scores[idx] = (Util.arraySimilarityScalar(this.robot.measurement,el.measurement));
     })
-    debugger
+    console.log(this.scores);
   }
 
 
@@ -106,7 +106,6 @@ class SimulationContainer {
     wallEast.y = 0;
     this.stage.addChild(wallEast);
   }
-
   addLandMarks() {
 
   }
