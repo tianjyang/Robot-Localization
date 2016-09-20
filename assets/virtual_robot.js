@@ -16,21 +16,15 @@ class VirtualBot extends createjs.Container {
   }
 
   takeMeasurement() {
-    let measureNotice = new createjs.Shape();
-    measureNotice.graphics.beginFill("yellow").drawRect(0,0,200,50);
-    measureNotice.x = 10;
-    measureNotice.y = 10;
-    this.stageVar.addChild(measureNotice);
-    this.stageVar.update();
     let startingPoint, distance;
+    let index = 0
     startingPoint = [this.x,this.y];
     for (let i = 0; i < 360; i+= 5) {
       startingPoint = [this.x,this.y];
-      distance = this.takeSensorReading(startingPoint, this.rotation + i);
-      this.measurement[i] = distance
+      distance = this.takeSensorReading(startingPoint,i);
+      this.measurement[index] = distance;
+      index++;
     }
-    this.stageVar.removeChild(measureNotice);
-    this.stageVar.update();
   }
 
   takeSensorReading(startingPoint,angle) {

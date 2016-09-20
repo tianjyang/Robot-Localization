@@ -13,19 +13,21 @@ class SimulationContainer {
     this.scores = [];
     this.addWalls();
     this.addLandMarks();
+    stage.update();
     this.robot = new VirtualBot(stage,this);
     window.robot = this.robot;
     this.robot.x = 250;
     this.robot.y =250;
     this.populateGuesses();
+    // this.robot.takeMeasurement();
+    // this.setSimilarityScores.bind(this)();
     stage.update();
   }
 
   setSimilarityScores(){
     this.guesses.forEach((el,idx)=>{
       this.scores[idx] = (Util.arraySimilarityScalar(this.robot.measurement,el.measurement));
-    })
-    console.log(this.scores);
+    });
   }
 
 
@@ -49,7 +51,7 @@ class SimulationContainer {
 
 
   populateGuesses(){
-    for (var i = 0; i < 100; i++) {
+    for (var i = 0; i < 1; i++) {
       this.guesses.push(new VirtualGuess(this.stage,this))
     }
   }
@@ -63,7 +65,6 @@ class SimulationContainer {
         this.robot.travelDistance = 0;
       } else {
         this.robot.updatePosition(this.handleKeyboard());
-        console.log(this.robot.travelDistance);
       }
 
       this.stage.update();

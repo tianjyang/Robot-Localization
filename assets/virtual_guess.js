@@ -9,29 +9,30 @@ class VirtualGuess extends createjs.Shape {
     stage.addChild(this);
     this.drawSelf();
     this.measurement = [];
-    this.travelDistance = 0;
-    this.takeMeasurement()
+    this.takeMeasurement();
     return this;
   }
 
   takeMeasurement() {
-    let measureNotice = new createjs.Shape();
     let startingPoint, distance;
+    let index = 0
     startingPoint = [this.x,this.y];
-    for (let i = 0; i < 360; i+=5) {
+    for (let i = 0; i < 1; i+=5) {
       startingPoint = [this.x,this.y];
-      distance = this.takeSensorReading(startingPoint, this.rotation + i);
-      this.measurement[i] = distance
+      distance = this.takeSensorReading(startingPoint,i);
+      this.measurement[index] = distance;
+      index += 1;
     }
   }
 
   takeSensorReading(startingPoint,angle) {
+    const thisContext = this;
     let radians = angle*Math.PI/180;
     let startPoint = startingPoint;
     let endPoint = startingPoint.slice(0);
     let keepLooping = true;
     const colorAtPix = (x,y) => {
-      return Array.from(this.stageVar.canvas.getContext('2d').getImageData(x,y,5,5).data);
+      return Array.from(thisContext.stageVar.canvas.getContext('2d').getImageData(x,y,5,5).data);
     };
 
     const isBlack = (rgbArray) => {
@@ -50,11 +51,9 @@ class VirtualGuess extends createjs.Shape {
   }
 
   drawSelf() {
-    this.graphics.beginFill("rgba(255,0,0,0.05)").drawPolyStar(0,0,20,3,0,0);
+    this.graphics.beginFill("rgba(255,0,0,0.05)").drawCircle(0,0,20);
     this.x = Math.random()* 500;
     this.y = Math.random()* 500;
-    this.rotation = Math.random()*360;
-    this.scaleX = 1.5;
   }
 }
 
