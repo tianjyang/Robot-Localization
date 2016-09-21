@@ -60,8 +60,7 @@ class SimulationContainer {
 
 
   populateGuesses(){
-    for (var i = 0; i < 1000; i++) {
-      console.log("setting up guess number ",i);
+    for (var i = 0; i < 100; i++) {
       this.guesses.push(new VirtualGuess(this.stage,this));
     }
   }
@@ -71,7 +70,6 @@ class SimulationContainer {
     let maxRange = this.cumulativeScores[numGuesses-1];
     let output = [];
     for (var i = 0; i < numGuesses; i++) {
-      console.log("resampling number ",i);
       let currentSample = maxRange * Math.random();
       let currentGuess = this.guesses[Util.findApproxIndex(this.cumulativeScores,currentSample)];
       let newGuess = new VirtualGuess(this.stage,this);
@@ -94,7 +92,6 @@ class SimulationContainer {
         this.robot.takeMeasurement();
         this.setSimilarityScores();
         this.resampleGuesses();
-        console.log(this.cumulativeScores);
         this.robot.travelDistance = 0;
       } else {
         this.robot.updatePosition(this.handleKeyboard());
