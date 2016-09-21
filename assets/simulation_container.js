@@ -60,7 +60,7 @@ class SimulationContainer {
 
 
   populateGuesses(){
-    for (var i = 0; i < 100; i++) {
+    for (var i = 0; i < 1000; i++) {
       this.guesses.push(new VirtualGuess(this.stage,this));
     }
   }

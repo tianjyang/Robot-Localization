@@ -59,7 +59,7 @@ class VirtualGuess extends createjs.Shape {
   // }
 
   drawSelf() {
-    this.graphics.beginFill("rgba(255,0,0,0.05)").drawCircle(0,0,20);
+    this.graphics.beginFill("rgba(255,0,0,0.01)").drawCircle(0,0,20);
     this.x = Math.random()* 500;
     this.y = Math.random()* 500;
   }

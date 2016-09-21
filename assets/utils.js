@@ -114,7 +114,7 @@ export const arraySimilarityScalar = (measurement,array2) => {
 
     output += difference;
   }
-  output = output/measurement.length;
+  output = output;
   return 1/output;
 };
 
