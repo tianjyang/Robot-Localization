@@ -13,6 +13,14 @@ class VirtualGuess extends createjs.Shape {
     return this;
   }
 
+  takeMeasurement(){
+    this.simulation.walls.forEach((el,idx)=>{
+      let otherPoint = [el.x,el.y];
+      let thisPoint = [this.x,this.y];
+      this.measurement[idx] = Util.distanceBetweenPoints(otherPoint,thisPoint);
+    });
+  }
+
   // takeMeasurement() {
   //   let startingPoint, distance;
   //   let index = 0

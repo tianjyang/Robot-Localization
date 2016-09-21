@@ -12,7 +12,8 @@ class SimulationContainer {
     this.handleKeyboard = this.handleKeyboard.bind(this);
     this.guesses = [];
     this.scores = [];
-    this.cumulativeScores=[]
+    this.cumulativeScores=[];
+    this.walls = [];
     this.addWalls();
     this.addLandMarks();
     stage.update();
@@ -59,7 +60,7 @@ class SimulationContainer {
 
 
   populateGuesses(){
-    for (var i = 0; i < 280; i++) {
+    for (var i = 0; i < 1000; i++) {
       console.log("setting up guess number ",i);
       this.guesses.push(new VirtualGuess(this.stage,this));
     }
@@ -120,24 +121,26 @@ class SimulationContainer {
     wallNorth.x = 0;
     wallNorth.y = 0;
     this.stage.addChild(wallNorth);
+    this.walls.push(wallNorth);
 
     let wallSouth = new createjs.Shape();
     wallSouth.graphics.beginFill("black").drawRect(0,0,500,10);
     wallSouth.x = 0;
     wallSouth.y = 490;
     this.stage.addChild(wallSouth);
-
+    this.walls.push(wallSouth);
     let wallWest = new createjs.Shape();
     wallWest.graphics.beginFill("black").drawRect(0,0,10,500);
     wallWest.x = 0;
     wallWest.y = 0;
     this.stage.addChild(wallWest);
-
+    this.walls.push(wallWest);
     let wallEast = new createjs.Shape();
     wallEast.graphics.beginFill("black").drawRect(0,0,10,500);
     wallEast.x = 490;
     wallEast.y = 0;
     this.stage.addChild(wallEast);
+    this.walls.push(wallEast);
   }
   addLandMarks() {
 

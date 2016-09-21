@@ -15,41 +15,50 @@ class VirtualBot extends createjs.Container {
     return this;
   }
 
-  takeMeasurement() {
-    let startingPoint, distance;
-    let index = 0
-    startingPoint = [this.x,this.y];
-    for (let i = 0; i <= 360; i+= 90) {
-      startingPoint = [this.x,this.y];
-      distance = this.takeSensorReading(startingPoint,i);
-      this.measurement[index] = distance;
-      index++;
-    }
+  takeMeasurement(){
+    this.simulation.walls.forEach((el,idx)=>{
+      let otherPoint = [el.x,el.y];
+      let thisPoint = [this.x,this.y];
+      this.measurement[idx] = Util.distanceBetweenPoints(otherPoint,thisPoint);
+    });
   }
-
-  takeSensorReading(startingPoint,angle) {
-    let radians = angle*Math.PI/180;
-    let startPoint = startingPoint
-    let endPoint = startingPoint.slice(0);
-    let keepLooping = true
-    let avgColor
-    const colorAtPix = (x,y) => {
-      return Array.from(this.stageVar.canvas.getContext('2d').getImageData(x,y,5,5).data);
-    };
-
-    const isBlack = (rgbArray) => {
-      rgbArray.pop();
-      return rgbArray.every((el)=>{
-        return el === 0;
-      });
-    };
-    while (keepLooping) {
-      endPoint = Util.stepInDirectionDegs(endPoint,radians,10);
-      keepLooping = !Util.hasBlack(colorAtPix(endPoint[0],endPoint[1]));
-    }
-    let vector = Util.vectorBetweenCenters(startPoint,endPoint);
-    return Util.vectorMagnitude(vector);
-  }
+  //
+  //
+  // takeMeasurement() {
+  //   let startingPoint, distance;
+  //   let index = 0
+  //   startingPoint = [this.x,this.y];
+  //   for (let i = 0; i <= 360; i+= 90) {
+  //     startingPoint = [this.x,this.y];
+  //     distance = this.takeSensorReading(startingPoint,i);
+  //     this.measurement[index] = distance;
+  //     index++;
+  //   }
+  // }
+  //
+  // takeSensorReading(startingPoint,angle) {
+  //   let radians = angle*Math.PI/180;
+  //   let startPoint = startingPoint
+  //   let endPoint = startingPoint.slice(0);
+  //   let keepLooping = true
+  //   let avgColor
+  //   const colorAtPix = (x,y) => {
+  //     return Array.from(this.stageVar.canvas.getContext('2d').getImageData(x,y,5,5).data);
+  //   };
+  //
+  //   const isBlack = (rgbArray) => {
+  //     rgbArray.pop();
+  //     return rgbArray.every((el)=>{
+  //       return el === 0;
+  //     });
+  //   };
+  //   while (keepLooping) {
+  //     endPoint = Util.stepInDirectionDegs(endPoint,radians,10);
+  //     keepLooping = !Util.hasBlack(colorAtPix(endPoint[0],endPoint[1]));
+  //   }
+  //   let vector = Util.vectorBetweenCenters(startPoint,endPoint);
+  //   return Util.vectorMagnitude(vector);
+  // }
 
   updatePosition(inputVelocity) {
     this.rotation += inputVelocity[1]*(inputVelocity[0]||1);
