@@ -118,7 +118,11 @@ export const arraySimilarityScalar = (measurement,array2) => {
   return 1/output;
 };
 
-window.arraySimilarityScalar = arraySimilarityScalar;
-window.a = [1,2,3,4,5,6];
-window.b = [1,2,3,4,5,6];
-window.c = [2,2,4,5,5,6];
+
+export const findApproxIndex = (array,value) =>{
+  for (var i = 0; i < array.length; i++) {
+    if (array[i] > value) {
+      return i;
+    }
+  }
+};

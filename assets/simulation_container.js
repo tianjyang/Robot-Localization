@@ -5,13 +5,14 @@ import * as Util from './utils';
 
 class SimulationContainer {
   constructor(stage) {
-
+    window.sim = this;
     this.stage = stage;
     window.stage = stage;
     this.run = this.run.bind(this);
     this.handleKeyboard = this.handleKeyboard.bind(this);
     this.guesses = [];
     this.scores = [];
+    this.cumulativeScores=[]
     this.addWalls();
     this.addLandMarks();
     stage.update();
@@ -27,7 +28,13 @@ class SimulationContainer {
 
   setSimilarityScores(){
     this.guesses.forEach((el,idx)=>{
-      this.scores[idx] = (Util.arraySimilarityScalar(this.robot.measurement,el.measurement));
+      let temp = Util.arraySimilarityScalar(this.robot.measurement,el.measurement)
+      this.scores[idx] = (temp);
+      if (idx === 0) {
+        this.cumulativeScores[idx] = temp;
+      } else {
+        this.cumulativeScores[idx] = temp + this.cumulativeScores[idx-1];
+      }
     });
   }
 
@@ -52,10 +59,31 @@ class SimulationContainer {
 
 
   populateGuesses(){
-    for (var i = 0; i < 50; i++) {
+    for (var i = 0; i < 280; i++) {
       console.log("setting up guess number ",i);
-      this.guesses.push(new VirtualGuess(this.stage,this))
+      this.guesses.push(new VirtualGuess(this.stage,this));
     }
+  }
+
+  resampleGuesses(){
+    let numGuesses = this.cumulativeScores.length;
+    let maxRange = this.cumulativeScores[numGuesses-1];
+    let output = [];
+    for (var i = 0; i < numGuesses; i++) {
+      console.log("resampling number ",i);
+      let currentSample = maxRange * Math.random();
+      let currentGuess = this.guesses[Util.findApproxIndex(this.cumulativeScores,currentSample)];
+      let newGuess = new VirtualGuess(this.stage,this);
+      newGuess.x = currentGuess.x;
+      newGuess.y = currentGuess.y;
+      newGuess.measurement = currentGuess.measurement;
+      output.push(newGuess);
+    }
+    this.guesses.forEach((el)=>{
+      this.stage.removeChild(el);
+    });
+    this.guesses = output;
+
   }
 
   run () {
@@ -64,7 +92,8 @@ class SimulationContainer {
       if (this.robot.travelDistance >= 50) {
         this.robot.takeMeasurement();
         this.setSimilarityScores();
-        console.log(this.scores);
+        this.resampleGuesses();
+        console.log(this.cumulativeScores);
         this.robot.travelDistance = 0;
       } else {
         this.robot.updatePosition(this.handleKeyboard());
