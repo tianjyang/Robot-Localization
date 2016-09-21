@@ -1,4 +1,5 @@
-import * as Util from './utils'
+import * as Util from './utils';
+import { rnorm } from 'randgen';
 
 class VirtualBot extends createjs.Container {
   constructor (stage,simulation) {
@@ -7,11 +8,12 @@ class VirtualBot extends createjs.Container {
     this.simulation = simulation;
     stage.addChild(this);
     this.drawSelf();
-    this.measurement = []
-    this.travelDistance = 0
+    this.measurement = [];
+    this.travelDistance = 0;
     this.x = Math.random() * 500;
     this.y = Math.random() * 500;
-    this.rotation = Math.random() * 360
+    this.rotation = Math.random() * 360;
+    this.addNoise = true;
     return this;
   }
 
@@ -19,46 +21,13 @@ class VirtualBot extends createjs.Container {
     this.simulation.walls.forEach((el,idx)=>{
       let otherPoint = [el.x,el.y];
       let thisPoint = [this.x,this.y];
-      this.measurement[idx] = Util.distanceBetweenPoints(otherPoint,thisPoint);
+      let distance = Util.distanceBetweenPoints(otherPoint,thisPoint);
+      if ( this.addNoise ) {
+        distance = rnorm(distance, 1);
+      }
+      this.measurement[idx] = distance;
     });
   }
-  //
-  //
-  // takeMeasurement() {
-  //   let startingPoint, distance;
-  //   let index = 0
-  //   startingPoint = [this.x,this.y];
-  //   for (let i = 0; i <= 360; i+= 90) {
-  //     startingPoint = [this.x,this.y];
-  //     distance = this.takeSensorReading(startingPoint,i);
-  //     this.measurement[index] = distance;
-  //     index++;
-  //   }
-  // }
-  //
-  // takeSensorReading(startingPoint,angle) {
-  //   let radians = angle*Math.PI/180;
-  //   let startPoint = startingPoint
-  //   let endPoint = startingPoint.slice(0);
-  //   let keepLooping = true
-  //   let avgColor
-  //   const colorAtPix = (x,y) => {
-  //     return Array.from(this.stageVar.canvas.getContext('2d').getImageData(x,y,5,5).data);
-  //   };
-  //
-  //   const isBlack = (rgbArray) => {
-  //     rgbArray.pop();
-  //     return rgbArray.every((el)=>{
-  //       return el === 0;
-  //     });
-  //   };
-  //   while (keepLooping) {
-  //     endPoint = Util.stepInDirectionDegs(endPoint,radians,10);
-  //     keepLooping = !Util.hasBlack(colorAtPix(endPoint[0],endPoint[1]));
-  //   }
-  //   let vector = Util.vectorBetweenCenters(startPoint,endPoint);
-  //   return Util.vectorMagnitude(vector);
-  // }
 
   updatePosition(inputVelocity) {
     this.rotation += inputVelocity[1]*(inputVelocity[0]||1);
