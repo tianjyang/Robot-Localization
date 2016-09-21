@@ -60,7 +60,7 @@ class SimulationContainer {
 
 
   populateGuesses(){
-    for (var i = 0; i < 100; i++) {
+    for (var i = 0; i < 1000; i++) {
       this.guesses.push(new VirtualGuess(this.stage,this));
     }
   }
@@ -68,8 +68,9 @@ class SimulationContainer {
   resampleGuesses(){
     let numGuesses = this.cumulativeScores.length;
     let maxRange = this.cumulativeScores[numGuesses-1];
+    let numToSample = Math.floor(numGuesses*.95);
     let output = [];
-    for (var i = 0; i < numGuesses; i++) {
+    for (var i = 0; i < numToSample; i++) {
       let currentSample = maxRange * Math.random();
       let currentGuess = this.guesses[Util.findApproxIndex(this.cumulativeScores,currentSample)];
       let newGuess = new VirtualGuess(this.stage,this);
@@ -77,6 +78,10 @@ class SimulationContainer {
       newGuess.y = currentGuess.y;
       newGuess.measurement = currentGuess.measurement;
       output.push(newGuess);
+    }
+
+    while (output.length < numGuesses) {
+      output.push(new VirtualGuess(this.stage,this));
     }
     this.guesses.forEach((el)=>{
       this.stage.removeChild(el);
