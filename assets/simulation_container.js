@@ -24,19 +24,40 @@ class SimulationContainer {
     this.populateGuesses();
     this.robot.takeMeasurement();
     this.setSimilarityScores.bind(this)();
+    this.bestGuess = null;
     stage.update();
   }
 
   setSimilarityScores(){
+    let maxScore = 0;
     this.guesses.forEach((el,idx)=>{
       let temp = Util.arraySimilarityScalar(this.robot.measurement,el.measurement)
       this.scores[idx] = (temp);
+      if ( temp > maxScore ) {
+        this.bestGuess = el;
+        maxScore = temp;
+      }
+
       if (idx === 0) {
         this.cumulativeScores[idx] = temp;
       } else {
         this.cumulativeScores[idx] = temp + this.cumulativeScores[idx-1];
       }
     });
+
+    this.updateHTMLWithParams()
+  }
+
+  updateHTMLWithParams(){
+    let robotX = document.getElementById("robot-x");
+    robotX.innerHTML = this.robot.x.toFixed(1)
+    let robotY = document.getElementById("robot-y");
+    robotY.innerHTML = this.robot.y.toFixed(1)
+
+    let bestGuessX = document.getElementById("best-guess-x");
+    bestGuessX.innerHTML = this.bestGuess.x.toFixed(1)
+    let bestGuessY = document.getElementById("best-guess-y");
+    bestGuessY.innerHTML = this.bestGuess.y.toFixed(1)
   }
 
 
@@ -68,7 +89,7 @@ class SimulationContainer {
   resampleGuesses(){
     let numGuesses = this.cumulativeScores.length;
     let maxRange = this.cumulativeScores[numGuesses-1];
-    let numToSample = Math.floor(numGuesses*.95);
+    let numToSample = Math.floor(numGuesses*.75);
     let output = [];
     for (var i = 0; i < numToSample; i++) {
       let currentSample = maxRange * Math.random();
@@ -93,7 +114,7 @@ class SimulationContainer {
   run () {
 
     const handleTick = (e) => {
-      if (this.robot.travelDistance >= 50) {
+      if (this.robot.travelDistance >= 10) {
         this.robot.takeMeasurement();
         this.setSimilarityScores();
         this.resampleGuesses();

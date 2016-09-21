@@ -23,7 +23,7 @@ class VirtualBot extends createjs.Container {
       let thisPoint = [this.x,this.y];
       let distance = Util.distanceBetweenPoints(otherPoint,thisPoint);
       if ( this.addNoise ) {
-        distance = rnorm(distance, 1);
+        distance = rnorm(distance, 5);
       }
       this.measurement[idx] = distance;
     });

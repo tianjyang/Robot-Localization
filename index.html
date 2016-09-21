@@ -6,17 +6,73 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="lib/keymaster.js"></script>
-
     <meta charset="utf-8">
     <title></title>
   </head>
   <body>
-    <h1 class="title">Dotty Dots</h1>
-    <canvas id="simulation-canvas" width="500px" height="500px">
-    </canvas>
+    <h1 class="title">Robot Localization</h1>
+    <div class="simulation-container">
+      <canvas id="simulation-canvas" width="500px" height="500px">
+      </canvas>
+      <div class="simulation-options">
+        <label>Sensor Noise
+          <input type="range" id="sensor-noise" value="50"/>
+        </label>
+        <label>Number of Particles
+          <input type="range" id="num-particles" value="50"/>
+        </label>
+        <label>Number of Measurements
+          <input type="range" id="num-particles" value="50"/>
+        </label>
+
+        <label>Current Location of Robot
+          <table style="width:100%;">
+            <tr>
+            <th>
+              X Coord
+            </th>
+            <th>
+              Y Coord
+            </th>
+            </tr>
+            <tr>
+            <th id="robot-x">
+              250
+            </th>
+            <th id="robot-y">
+              250
+            </th>
+            </tr>
+          </table>
+        </label>
+
+        <label>Current Best Guess
+          <table style="width:100%">
+            <tr>
+            <th>
+              X Coord
+            </th>
+            <th>
+              Y Coord
+            </th>
+            </tr>
+            <tr>
+            <th id="best-guess-x">
+              250
+            </th>
+            <th id="best-guess-y">
+              250
+            </th>
+            </tr>
+          </table>
+        </label>
+      </div>
+    </div>
+
+
     <div class="links">
       <a href="https://about.me/joshua.yang">About Me</a>
-      <a href="https://github.com/tianjyang/DottyDots">GitHub Repo</a>
+      <a href="https://github.com/tianjyang/Robot-Localization">GitHub Repo</a>
       <a href="https://linkedin.com/in/tianjyang">LinkedIn</a>
 
     </div>

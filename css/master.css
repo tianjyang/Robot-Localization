@@ -1,9 +1,31 @@
 #simulation-canvas {
-  display: block;
-  margin: 0px auto;
-  border: 2px solid black;
+  display: inline-block;
+}
+.simulation-options label  {
+  display:block;
+  margin-top:20px;
 }
 
+.simulation-options input  {
+  float:right;
+}
+
+.simulation-container {
+  display:block;
+  width:900px;
+  margin: 0px auto;
+}
+
+.simulation-options {
+  vertical-align: top;
+  display:inline-block;
+  margin: 0px auto;
+  width:auto;
+  height:500px;
+  box-sizing:border-box;
+  border-bottom: 10px solid black;
+  border-right: 10px solid black;
+}
 
 .links {
   width:900px;
