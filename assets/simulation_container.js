@@ -5,6 +5,9 @@ import * as Util from './utils';
 
 class SimulationContainer {
   constructor(stage) {
+    this.sensorNoise = 1;
+    this.numParticles = 500;
+    this.numMeasures = 10;
     window.sim = this;
     this.stage = stage;
     window.stage = stage;
@@ -15,9 +18,9 @@ class SimulationContainer {
     this.cumulativeScores=[];
     this.walls = [];
     this.addWalls();
-    this.addLandMarks();
     stage.update();
     this.robot = new VirtualBot(stage,this);
+    this.robot.setSensorNoise(this.sensorNoise);
     window.robot = this.robot;
     this.robot.x = 250;
     this.robot.y =250;
@@ -30,6 +33,8 @@ class SimulationContainer {
 
   setSimilarityScores(){
     let maxScore = 0;
+    this.scores = [];
+    this.cumulativeScores = [];
     this.guesses.forEach((el,idx)=>{
       let temp = Util.arraySimilarityScalar(this.robot.measurement,el.measurement)
       this.scores[idx] = (temp);
@@ -60,7 +65,10 @@ class SimulationContainer {
     bestGuessY.innerHTML = this.bestGuess.y.toFixed(1)
   }
 
-
+  kickRobot(){
+    this.robot.x = Math.random()*500;
+    this.robot.y = Math.random()*500;
+  }
 
   handleKeyboard(){
     let movement = [0,0];
@@ -81,9 +89,19 @@ class SimulationContainer {
 
 
   populateGuesses(){
-    for (var i = 0; i < 1000; i++) {
+    for (var i = 0; i < this.numParticles; i++) {
       this.guesses.push(new VirtualGuess(this.stage,this));
     }
+  }
+
+  resetKnowledge(){
+    let currentStage = this.stage;
+    this.guesses.forEach((el)=>{
+      currentStage.removeChild(el);
+    });
+    this.guesses =[];
+    this.populateGuesses();
+    this.stage.update();
   }
 
   resampleGuesses(){
@@ -114,7 +132,7 @@ class SimulationContainer {
   run () {
 
     const handleTick = (e) => {
-      if (this.robot.travelDistance >= 10) {
+      if (this.robot.travelDistance >= this.numMeasures) {
         this.robot.takeMeasurement();
         this.setSimilarityScores();
         this.resampleGuesses();
@@ -165,8 +183,21 @@ class SimulationContainer {
     this.stage.addChild(wallEast);
     this.walls.push(wallEast);
   }
-  addLandMarks() {
+  updateSensorNoise(){
+    let percent = document.getElementById("sensor-noise").value/100;
+    this.sensorNoise = 1 + 9*percent;
+    this.robot.setSensorNoise(this.sensorNoise);
+  }
 
+  updateParticleCount(){
+    let percent = document.getElementById("num-particles").value/100;
+    this.numParticles = Math.floor(50 + percent*1950);
+    this.resetKnowledge()
+  }
+
+  updateNumberMeasurement(){
+    let percent = document.getElementById("num-measures").value/100;
+    this.numMeasures = 20 - 19*percent;
   }
 }
 

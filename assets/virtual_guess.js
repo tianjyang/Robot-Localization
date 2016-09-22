@@ -22,7 +22,8 @@ class VirtualGuess extends createjs.Shape {
   }
 
   drawSelf() {
-    this.graphics.beginFill("rgba(255,0,0,0.01)").drawCircle(0,0,20);
+    let alpha = 1/this.simulation.numParticles;
+    this.graphics.beginFill("rgba(255,0,0,.02)").drawCircle(0,0,20);
     this.x = Math.random()* 500;
     this.y = Math.random()* 500;
   }

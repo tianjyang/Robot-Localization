@@ -13,18 +13,22 @@ class VirtualBot extends createjs.Container {
     this.x = Math.random() * 500;
     this.y = Math.random() * 500;
     this.rotation = Math.random() * 360;
-    this.addNoise = true;
+    this.sensorNoise = 0;
     return this;
   }
+
+  setSensorNoise(arg){
+    this.sensorNoise = arg;
+  }
+
+
 
   takeMeasurement(){
     this.simulation.walls.forEach((el,idx)=>{
       let otherPoint = [el.x,el.y];
       let thisPoint = [this.x,this.y];
       let distance = Util.distanceBetweenPoints(otherPoint,thisPoint);
-      if ( this.addNoise ) {
-        distance = rnorm(distance, 5);
-      }
+      distance = rnorm(distance, this.sensorNoise);
       this.measurement[idx] = distance;
     });
   }

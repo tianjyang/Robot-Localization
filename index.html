@@ -2,6 +2,9 @@
 <html>
   <head>
     <script src="lib/easeljs-0.8.2.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
     <link rel="stylesheet" href="css/master.css" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -16,13 +19,13 @@
       </canvas>
       <div class="simulation-options">
         <label>Sensor Noise
-          <input type="range" id="sensor-noise" value="50"/>
+          <input type="range" id="sensor-noise" value="50" onChange="sim.updateSensorNoise()"/>
         </label>
         <label>Number of Particles
-          <input type="range" id="num-particles" value="50"/>
+          <input type="range" id="num-particles" value="50" onChange="sim.updateParticleCount()"/>
         </label>
         <label>Number of Measurements
-          <input type="range" id="num-particles" value="50"/>
+          <input type="range" id="num-measures" value="50" onChange="sim.updateNumberMeasurement()"/>
         </label>
 
         <label>Current Location of Robot
@@ -66,7 +69,42 @@
             </tr>
           </table>
         </label>
+        <div class="button" onClick="sim.resetKnowledge()">Reset Knowledge</div>
+        <div class="button" onClick="sim.kickRobot()">Move to Random Pos.</div>
       </div>
+
+      <div class="dialog-box">
+        <p class="material-icons close-button">close</p>
+        Would you like to see hint dialogs?
+        <div class="button inline-button" id="yes">Yes</div>
+        <div class="button inline-button" id="no">No</div>
+      </div>
+
+      <div class="dialog-box directions" id="enviro">
+        <p class="material-icons close-button">close</p>
+        The environment contains multiple red dots which respresent possible robot locations. The darker the dot, the more strongly the robot believes it is there.
+        <br /><div class="button next-button" onClick="nextStep()">Next</div>
+      </div>
+
+      <div class="dialog-box directions" id="moveBot">
+        <p class="material-icons close-button">close</p>
+        Go ahead and use the WASD keys to move the robot around the environment a little bit.
+        <br /><div class="button next-button" onClick="nextStep()">Next</div>
+      </div>
+
+      <div class="dialog-box directions" id="updateEnviro">
+        <p class="material-icons close-button">close</p>
+        Notice that there is a higher density of dots close to the robot's actual location. This represents the robot's perceived location and will update as you continue to move.
+        <br /><div class="button next-button" onClick="nextStep()">Next</div>
+      </div>
+
+      <div class="dialog-box directions" id="updateEnviro">
+        <p class="material-icons close-button">close</p>
+        Play with the options on the right and you can see how the robot updates it's knowledge as it moves!
+        <br /><div class="button next-button" onClick="nextStep()">Finish</div>
+      </div>
+
+
     </div>
 
 
@@ -74,8 +112,36 @@
       <a href="https://about.me/joshua.yang">About Me</a>
       <a href="https://github.com/tianjyang/Robot-Localization">GitHub Repo</a>
       <a href="https://linkedin.com/in/tianjyang">LinkedIn</a>
-
     </div>
+
+
   </body>
   <script type="text/javascript" src="lib/bundle.js"></script>
+  <script>
+
+
+  const hideElement = (e) => {
+    $(e.currentTarget.parentElement).fadeOut(200)
+  }
+
+  const startTutorial = (e) => {
+    $(e.currentTarget.parentElement).fadeOut(200)
+    window.directions = $(".directions");
+    window.directionIndex = 0;
+    $(window.directions[0]).fadeIn(200);
+    console.log("tutorial starting!");
+  }
+
+  const nextStep =() => {
+    $(window.directions[window.directionIndex]).fadeOut(100)
+    window.directionIndex +=1
+    $(window.directions[window.directionIndex]).fadeIn(200)
+  }
+
+  $(".close-button").click(hideElement)
+  $("#no").click(hideElement)
+  $("#yes").click(startTutorial)
+
+
+  </script>
 </html>
