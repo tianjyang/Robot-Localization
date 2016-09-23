@@ -1,13 +1,22 @@
 import * as Util from './utils';
+import { rnorm } from 'randgen';
 import VirtualBot from './virtual_robot';
 
 class VirtualGuess extends createjs.Shape {
-  constructor (stage,simulation) {
+  constructor (stage,simulation,posOptions) {
     super();
     this.stageVar = stage;
     this.simulation = simulation;
     stage.addChild(this);
     this.drawSelf();
+    if (posOptions) {
+      this.x = rnorm(posOptions.x, posOptions.stdDevX)
+      this.y = rnorm(posOptions.y, posOptions.stdDevY)
+    } else {
+      this.x = Math.random()* 500;
+      this.y = Math.random()* 500;
+    }
+
     this.measurement = [];
     this.takeMeasurement();
     return this;
@@ -24,8 +33,6 @@ class VirtualGuess extends createjs.Shape {
   drawSelf() {
     let alpha = 1/this.simulation.numParticles;
     this.graphics.beginFill("rgba(255,0,0,.02)").drawCircle(0,0,20);
-    this.x = Math.random()* 500;
-    this.y = Math.random()* 500;
   }
 }
 

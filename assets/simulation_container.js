@@ -1,6 +1,7 @@
 import VirtualBot from './virtual_robot';
 import VirtualGuess from './virtual_guess';
-import { merge } from 'lodash';
+// import { rnorm } from 'randgen';
+
 import * as Util from './utils';
 
 class SimulationContainer {
@@ -109,18 +110,31 @@ class SimulationContainer {
     let maxRange = this.cumulativeScores[numGuesses-1];
     let numToSample = Math.floor(numGuesses*.75);
     let output = [];
+    let stdDevX = 0;
+    let stdDevY = 0;
     for (var i = 0; i < numToSample; i++) {
       let currentSample = maxRange * Math.random();
       let currentGuess = this.guesses[Util.findApproxIndex(this.cumulativeScores,currentSample)];
       let newGuess = new VirtualGuess(this.stage,this);
       newGuess.x = currentGuess.x;
+      stdDevX += Math.pow((newGuess.x - this.bestGuess.x),2)
       newGuess.y = currentGuess.y;
+      stdDevY += Math.pow((newGuess.y - this.bestGuess.y),2)
       newGuess.measurement = currentGuess.measurement;
       output.push(newGuess);
     }
+    stdDevX = Math.sqrt(stdDevX / numToSample);
+    stdDevY = Math.sqrt(stdDevY / numToSample);
+    let posOptions = {
+      x: this.bestGuess.x,
+      y: this.bestGuess.y,
+      stdDevX,
+      stdDevY
+    };
 
     while (output.length < numGuesses) {
-      output.push(new VirtualGuess(this.stage,this));
+      let temp = new VirtualGuess(this.stage,this,posOptions);
+      output.push(temp)
     }
     this.guesses.forEach((el)=>{
       this.stage.removeChild(el);

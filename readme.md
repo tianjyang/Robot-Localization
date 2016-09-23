@@ -31,6 +31,6 @@ This app is implemented using the following libraries:
 1. EaselJS to render HTML 5 elements
 
 ## Additional Features
-The current method to prevent particle deprivation redistributes 10% of the particles as random distributions around the entire environment. I would like to implement a method which distributes this around the robot based on the variance of the current particles. I anticipate this will result in more accurate predictions of the current location
+The method used to rank the relevance of existing particles currently uses a percentage difference from measured results as it's input. I would like to implement a new scoring system based on the squared difference rather than percent difference.
 
-The method used to rank the relevance of existing particles currently uses a percentage difference from measured results as it's input. I would like to investigate the effects of an alternative method such as root mean square.
+Current method of determining location takes distance measurements from the wall. I would like to develop functionality of the robot to sense it's immediate surroundings so that it can determine it's location based on additional obstacles.
