@@ -15,11 +15,12 @@ After a few movements, darker and clearer red dots begin to appear around the lo
 
 ## Features
 
-[video 1](https://www.youtube.com/embed/lvX3sAuEW2M)
+[Video 1](https://www.youtube.com/embed/lvX3sAuEW2M)
 
 The preceding video demonstrates one of the features of the particle filter. The robot is able to localize itself after it has been moved to a random location.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/XmqkNExMm1A" frameborder="0" allowfullscreen></iframe>  
+[Video 2](https://www.youtube.com/embed/XmqkNExMm1A)
+
 This video demonstrates how sensor noise affects the robot's confidence in it's location. Noise is initially increased, which results in a larger distribution of red dots. Once it is removed, the confidence increases and the number of distribution of red dots localizes around the robot.
 
 
