@@ -6,15 +6,16 @@ In robotics, localization refers to the method used to answer the following ques
 The work here is based on methods learned from the Artifical Intelligence for Robotics course on Udacity.
 
 ## Instructions
-![img](docs/wireframe.png)
+![img](docs/wireframe.png)  
 At the start of the simulation, the robot is placed in the center environment and it has no information about it's current location. This is indicated by the even distribution of red dots which represent possible locations of the robot. Using the WASD keys, the user is able to move the robot.
 
-![img](docs/wireframe2.png)
+![img](docs/wireframe2.png)  
+
 After a few movements, darker and clearer red dots begin to appear around the location of the robot. These represent locations the robot is confident it is. A comparison of the actual location and the best guess is shown on the right.
 
 ## Features
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/lvX3sAuEW2M" frameborder="0" allowfullscreen></iframe>  
+[video 1](https://www.youtube.com/embed/lvX3sAuEW2M)
 
 The preceding video demonstrates one of the features of the particle filter. The robot is able to localize itself after it has been moved to a random location.
 
