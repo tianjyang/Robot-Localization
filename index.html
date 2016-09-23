@@ -28,7 +28,7 @@
           <input type="range" id="num-measures" value="50" onChange="sim.updateNumberMeasurement()"/>
         </label>
 
-        <label>Current Location of Robot
+        <label class="table-label">Current Location of Robot
           <table style="width:100%;">
             <tr>
             <th>
@@ -49,7 +49,7 @@
           </table>
         </label>
 
-        <label>Current Best Guess
+        <label class="table-label">Current Best Guess
           <table style="width:100%">
             <tr>
             <th>
@@ -71,11 +71,12 @@
         </label>
         <div class="button" onClick="sim.resetKnowledge()">Reset Knowledge</div>
         <div class="button" onClick="sim.kickRobot()">Move to Random Pos.</div>
+        <div class="button inline-button" onClick="showHelp()">Help</div>
       </div>
 
-      <div class="dialog-box">
+      <div class="dialog-box" id="helpbox">
         <p class="material-icons close-button">close</p>
-        Would you like to see hint dialogs?
+        Would you like to see help dialogs?
         <div class="button inline-button" id="yes">Yes</div>
         <div class="button inline-button" id="no">No</div>
       </div>
@@ -119,6 +120,9 @@
   <script type="text/javascript" src="lib/bundle.js"></script>
   <script>
 
+  const showHelp = (e) => {
+    $("#helpbox").fadeIn()
+  }
 
   const hideElement = (e) => {
     $(e.currentTarget.parentElement).fadeOut(200)

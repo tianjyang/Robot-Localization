@@ -37,7 +37,7 @@
     text-decoration: none;
     display: block;
     font-size: 16px;
-    margin: 20px 10px;
+    margin: 5px 10px;
     cursor: pointer;
 }
 
@@ -65,6 +65,19 @@
   float:right;
 }
 
+.table-label{
+  text-align: center;
+  background-color:grey
+}
+
+.table-label table{
+  background-color:white;
+}
+
+.table-label th{
+  border: 1px solid black;
+}
+
 .simulation-container {
   display:block;
   position: relative;
@@ -79,8 +92,8 @@
   width:auto;
   height:500px;
   box-sizing:border-box;
-  border-bottom: 10px solid black;
-  border-right: 10px solid black;
+  border: 10px solid black;
+  border-left: none;
 }
 
 .links {
@@ -99,7 +112,7 @@
   border: 1px solid black;
   width:250px;
   height:100px;
-  display:block;
+  display:none;
   position:absolute;
   left:50%;
   top:50%;
