@@ -1,5 +1,6 @@
 import VirtualBot from './virtual_robot';
 import VirtualGuess from './virtual_guess';
+import { distanceBetweenPoints } from './utils';
 // import { rnorm } from 'randgen';
 
 import * as Util from './utils';
@@ -30,6 +31,7 @@ class SimulationContainer {
     this.setSimilarityScores.bind(this)();
     this.bestGuess = null;
     stage.update();
+    this.target = {x:300,y:300};
   }
 
   setSimilarityScores(){
@@ -112,19 +114,25 @@ class SimulationContainer {
     let output = [];
     let stdDevX = 0;
     let stdDevY = 0;
+    let avgX = 0
+    let avgY = 0
     for (var i = 0; i < numToSample; i++) {
       let currentSample = maxRange * Math.random();
       let currentGuess = this.guesses[Util.findApproxIndex(this.cumulativeScores,currentSample)];
       let newGuess = new VirtualGuess(this.stage,this);
       newGuess.x = currentGuess.x;
-      stdDevX += Math.pow((newGuess.x - this.bestGuess.x),2)
+      stdDevX += Math.pow((newGuess.x - this.bestGuess.x),2);
       newGuess.y = currentGuess.y;
-      stdDevY += Math.pow((newGuess.y - this.bestGuess.y),2)
+      stdDevY += Math.pow((newGuess.y - this.bestGuess.y),2);
+      avgX += newGuess.x;
+      avgY += newGuess.y;
       newGuess.measurement = currentGuess.measurement;
       output.push(newGuess);
     }
     stdDevX = Math.sqrt(stdDevX / numToSample);
     stdDevY = Math.sqrt(stdDevY / numToSample);
+
+
     let posOptions = {
       x: this.bestGuess.x,
       y: this.bestGuess.y,
@@ -143,6 +151,16 @@ class SimulationContainer {
 
   }
 
+  pickNewTarget() {
+    let pos1 = [this.target.x, this.target.y];
+    let pos2 = [this.robot.x, this.robot.y];
+    if (distanceBetweenPoints(pos1,pos2) <= 5 ) {
+      this.target.x = Math.random()*500
+      this.target.y = Math.random()*500
+    }
+
+  }
+
   run () {
 
     const handleTick = (e) => {
@@ -154,15 +172,11 @@ class SimulationContainer {
       } else {
         this.robot.updatePosition(this.handleKeyboard());
       }
-
+      this.pickNewTarget()
       this.stage.update();
     };
-
-
     this.ticker = createjs.Ticker;
     this.ticker.addEventListener("tick",handleTick.bind(this));
-
-
   }
 
   addWalls(){
@@ -206,7 +220,7 @@ class SimulationContainer {
   updateParticleCount(){
     let percent = document.getElementById("num-particles").value/100;
     this.numParticles = Math.floor(50 + percent*1950);
-    this.resetKnowledge()
+    this.resetKnowledge();
   }
 
   updateNumberMeasurement(){
@@ -214,10 +228,35 @@ class SimulationContainer {
     this.numMeasures = 20 - 19*percent;
   }
 }
+const hideElement = (e,callback) => {
+  $(e.currentTarget.parentElement).fadeOut(500,callback);
+};
 
-document.addEventListener("DOMContentLoaded",()=>{
+
+
+const startSim = (event) => {
+  event.preventDefault();
+  if ( event.target.id === "start-help" ){
+    window.directions = $(".directions");
+    window.directionIndex = 0;
+    $(window.directions[0]).fadeIn();
+  } else {
+  }
+
+  hideElement(event,()=>{
+    $('#simulation-container').fadeIn(300);
+  });
+
   const stage = new createjs.Stage("simulation-canvas");
   const simContainer = new SimulationContainer(stage);
-  simContainer.run();
+  window.simContainer = simContainer;
+};
 
-});
+document.getElementById("start-help").addEventListener("click",startSim);
+
+
+
+
+
+$(".close-button").click(hideElement);
+$("#no").click(hideElement);

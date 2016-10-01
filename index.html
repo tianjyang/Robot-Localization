@@ -5,16 +5,36 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
-    <link rel="stylesheet" href="css/master.css" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="css/simulation.css" type="text/css">
+    <link rel="stylesheet" href="css/website-style.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="lib/keymaster.js"></script>
     <meta charset="utf-8">
     <title></title>
   </head>
   <body>
-    <h1 class="title">Robot Localization</h1>
-    <div class="simulation-container">
+    <div class = "app-header default-primary-color white-text">
+      <h1 class="title" style="margin-top:0px; font-weight:normal;">Robot Localization</h1>
+    </div>
+
+    <div class="big-card white-background shadow">
+      Robot localization is the method a robot uses to determine where it is.
+      This can be tricky to implement because it's possible for a sensor to return an erroneous reading.
+      An erroneous reading means a robot thinks it's in the wrong location and this could be disastrous (imagine if a self-driving car didn't know where it was!).
+      One method to account for this is a particle filter.
+      This is an implementation and visualization of this method.
+
+
+
+
+      <div class="page-button button-shadow" id="start-help">Walk me Through the Simulation
+      </div>
+    </div>
+
+    <div class="simulation-container white-background shadow"
+    id="simulation-container"
+    style="">
       <canvas id="simulation-canvas" width="500px" height="500px">
       </canvas>
       <div class="simulation-options">
@@ -28,7 +48,7 @@
           <input type="range" id="num-measures" value="50" onChange="sim.updateNumberMeasurement()"/>
         </label>
 
-        <label class="table-label">Current Location of Robot
+        <label class="table-label default-primary-color white-text">Current Location of Robot
           <table style="width:100%;">
             <tr>
             <th>
@@ -49,7 +69,7 @@
           </table>
         </label>
 
-        <label class="table-label">Current Best Guess
+        <label class="table-label default-primary-color white-text">Current Best Guess
           <table style="width:100%">
             <tr>
             <th>
@@ -69,83 +89,89 @@
             </tr>
           </table>
         </label>
-        <div class="button" onClick="sim.resetKnowledge()">Reset Knowledge</div>
-        <div class="button" onClick="sim.kickRobot()">Move to Random Pos.</div>
-        <div class="button inline-button" onClick="showHelp()">Help</div>
+        <div class="button button-shadow" onClick="sim.resetKnowledge()">Reset Knowledge</div>
+        <div class="button button-shadow" onClick="sim.kickRobot()">Kick the Robot!</div>
+        <div class="button inline-button button-shadow" onClick="showHelp()">Help</div>
       </div>
 
-      <div class="dialog-box" id="helpbox">
-        <p class="material-icons close-button">close</p>
-        Would you like to see help dialogs?
-        <div class="button inline-button" id="yes">Yes</div>
-        <div class="button inline-button" id="no">No</div>
+      <div class="dialog-box directions shadow" id="step1">
+        <p class="material-icons close-button default-primary-color  white-text" style="display:block;">close</p>
+        <p class="directions-text">
+          The environment contains multiple red dots which respresent possible robot locations. The darker the dot, the more strongly the robot believes it is there.
+        </p>
+        <br /><div class="button next-button button-shadow" onClick="nextStep()">Next</div>
       </div>
 
-      <div class="dialog-box directions" id="enviro">
-        <p class="material-icons close-button">close</p>
-        The environment contains multiple red dots which respresent possible robot locations. The darker the dot, the more strongly the robot believes it is there.
-        <br /><div class="button next-button" onClick="nextStep()">Next</div>
+      <div class="dialog-box directions shadow" id="step2">
+        <p class="material-icons close-button default-primary-color  white-text" style="display:block;">close</p>
+        <p class="directions-text">
+          Notice how all the dots are pretty evenly spread out. This means the robot has absolutely no idea where it is.
+          </p>
+        <br /><div class="button next-button button-shadow" onClick="nextStep()">Next</div>
       </div>
 
-      <div class="dialog-box directions" id="moveBot">
-        <p class="material-icons close-button">close</p>
-        Go ahead and use the WASD keys to move the robot around the environment a little bit.
-        <br /><div class="button next-button" onClick="nextStep()">Next</div>
+      <div class="dialog-box directions shadow" id="step3">
+        <p class="material-icons close-button default-primary-color  white-text" style="display:block;">close</p>
+        <p class="directions-text">
+        Now we're going to turn the robot on and it's going to activate it's localization algorithm"
+        </p>
+        <br /><div class="button next-button button-shadow" onClick="nextStep();window.sim.run();">Next</div>
       </div>
 
-      <div class="dialog-box directions" id="updateEnviro">
-        <p class="material-icons close-button">close</p>
-        Notice that there is a higher density of dots close to the robot's actual location. This represents the robot's perceived location and will update as you continue to move.
-        <br /><div class="button next-button" onClick="nextStep()">Next</div>
+      <div class="dialog-box directions shadow" id="step4">
+        <p class="material-icons close-button default-primary-color  white-text" style="display:block;">close</p>
+        <p class="directions-text">
+        Notice there are more dots close to the robot's actual location. This means the robot has a better idea of where it is!
+        </p>
+        <br /><div class="button next-button button-shadow" onClick="nextStep()">Next</div>
       </div>
 
-      <div class="dialog-box directions" id="updateEnviro">
-        <p class="material-icons close-button">close</p>
-        Play with the options on the right and you can see how the robot updates it's knowledge as it moves!
-        <br /><div class="button next-button" onClick="nextStep()">Finish</div>
+      <div class="dialog-box directions shadow" id="step5">
+        <p class="material-icons close-button default-primary-color  white-text" style="display:block;">close</p>
+        <p class="directions-text">
+        The great thing about this algorithm is it can update it's knowledge after it's been accidentally knocked out of place.
+        </p>
+        <br /><div class="button next-button button-shadow" onClick="nextStep()">Next</div>
+      </div>
+
+      <div class="dialog-box directions shadow" id="step6">
+        <p class="material-icons close-button default-primary-color  white-text" style="display:block;">close</p>
+        <p class="directions-text">
+        Now we're going to kick the robot and watch it re-localize itself!
+        </p>
+        <br /><div class="button next-button button-shadow" onClick="nextStep(); window.sim.kickRobot()">Kick the Robot</div>
+      </div>
+
+      <div class="dialog-box directions shadow" id="step6">
+        <p class="material-icons close-button default-primary-color  white-text" style="display:block;">close</p>
+        <p class="directions-text">
+        Play with the sliders and see how it re-localizes itself after a kick! (I would start by increasing the number of measurements!)
+        </p>
+        <br /><div class="button next-button button-shadow" onClick="nextStep()">Finish</div>
       </div>
 
 
     </div>
-
-
-    <div class="links">
-      <a href="https://about.me/joshua.yang">About Me</a>
-      <a href="https://github.com/tianjyang/Robot-Localization">GitHub Repo</a>
-      <a href="https://linkedin.com/in/tianjyang">LinkedIn</a>
-    </div>
-
 
   </body>
   <script type="text/javascript" src="lib/bundle.js"></script>
-  <script>
-
-  const showHelp = (e) => {
-    $("#helpbox").fadeIn()
-  }
-
-  const hideElement = (e) => {
-    $(e.currentTarget.parentElement).fadeOut(200)
-  }
-
-  const startTutorial = (e) => {
-    $(e.currentTarget.parentElement).fadeOut(200)
-    window.directions = $(".directions");
-    window.directionIndex = 0;
-    $(window.directions[0]).fadeIn(200);
-    console.log("tutorial starting!");
-  }
-
+  <script type="text/javascript">
   const nextStep =() => {
-    $(window.directions[window.directionIndex]).fadeOut(100)
-    window.directionIndex +=1
-    $(window.directions[window.directionIndex]).fadeIn(200)
-  }
+    $(window.directions[window.directionIndex]).fadeOut(100);
+    window.directionIndex +=1;
+    $(window.directions[window.directionIndex]).fadeIn(200);
+  };
 
-  $(".close-button").click(hideElement)
-  $("#no").click(hideElement)
-  $("#yes").click(startTutorial)
-
+  const showHelp = () => {
+      window.directions = $(".directions");
+      window.directionIndex = 0;
+      $(window.directions[0]).fadeIn();
+  };
 
   </script>
+
+
+
+
+
 </html>

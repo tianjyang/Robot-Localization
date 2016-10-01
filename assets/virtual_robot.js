@@ -14,6 +14,7 @@ class VirtualBot extends createjs.Container {
     this.y = Math.random() * 500;
     this.rotation = Math.random() * 360;
     this.sensorNoise = 0;
+    this.autopilot = true;
     return this;
   }
 
@@ -34,11 +35,22 @@ class VirtualBot extends createjs.Container {
   }
 
   updatePosition(inputVelocity) {
-    this.rotation += inputVelocity[1]*(inputVelocity[0]||1);
-    let radians = (this.rotation)*Math.PI/180;
-    this.x += inputVelocity[0]*Math.cos(radians);
-    this.y += inputVelocity[0]*Math.sin(radians);
-    this.travelDistance += Math.abs(inputVelocity[0]);
+    if (this.autopilot) {
+      let target = this.simulation.target;
+      let targetAngle = Math.atan2(target.y-this.y, target.x-this.x);
+      let botAngle = this.rotation*Math.PI/180;
+      this.rotation += 0.1*180*(targetAngle-botAngle)/Math.PI;
+      this.x += 1*Math.cos(botAngle);
+      this.y += 1*Math.sin(botAngle);
+      this.travelDistance += 1;
+
+    } else {
+      this.rotation += inputVelocity[1]*(inputVelocity[0]||1);
+      let radians = (this.rotation)*Math.PI/180;
+      this.x += inputVelocity[0]*Math.cos(radians);
+      this.y += inputVelocity[0]*Math.sin(radians);
+      this.travelDistance += Math.abs(inputVelocity[0]);
+    }
   }
 
   drawSelf() {

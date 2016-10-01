@@ -1,0 +1,142 @@
+
+.dark-primary-color    { background: #0097A7; }
+.default-primary-color { background: #00BCD4; }
+.light-primary-color   { background: #B2EBF2; }
+.text-primary-color    { color: #FFFFFF; }
+.accent-color          { background: #FFEB3B; }
+.primary-text-color    { color: #212121; }
+.secondary-text-color  { color: #757575; }
+.divider-color         { border-color: #BDBDBD; }
+.white-text            { color: #FFFFFF }
+.white-background      { background: #FFFFFF}
+
+.app-header {
+  display: block;
+  height:75px;
+  vertical-align: middle;
+  line-height:75px;
+  box-shadow: 0px 5px 5px grey;
+  z-index: 1px:
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration:underline;
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+
+
+.title {
+  text-align: center;
+}
+
+.dialog-box{
+  background-color: white;
+  width:360px;
+  height:100px;
+  display:block;
+  position:absolute;
+  text-align: center;
+  top:50px;
+  right:50px;
+  }
+
+  .directions {
+    display:none;
+    padding-bottom:10px;
+    height:auto;
+  }
+
+  .directions-text {
+    margin:5px;
+  }
+
+body {
+  font-family: 'Noto Sans', sans-serif;
+  margin:0px;
+  background-color: #BDBDBD;
+}
+
+.close-button {
+  position: relative;
+  display:block;
+  text-align:right;
+  cursor: pointer;
+  margin:0px;
+  background-color:
+}
+
+.big-card {
+  width:400px;
+  padding:25px;
+  display:block;
+  margin: 40px auto;
+  box-shadow: 0px 3px 5px grey;
+  -webkit-transition: 0.2s ease-in-out
+}
+
+.big-card:hover {
+  box-shadow: 0px 5px 5px grey;
+}
+
+.page-button {
+    background-color: #FFEB3B;
+    border: none;
+    color: #757575;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    font-size: 16px;
+    margin: 20px auto;
+    cursor: pointer;
+    width:200px;
+    -webkit-transition: 0.2s ease-in-out;
+}
+
+
+.shadow {
+  box-shadow: 0px 2px 2px grey;
+  -webkit-transition: 0.2s ease-in-out
+}
+
+.shadow:hover {
+  box-shadow: 0px 5px 5px grey;
+}
+
+.button-shadow {
+  box-shadow: 0px 2px 2px grey;
+  -webkit-transition: 0.1s ease-in-out
+}
+
+.button-shadow:hover {
+  box-shadow: 0px 0px 0px grey;
+}
