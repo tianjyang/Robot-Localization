@@ -35,7 +35,7 @@ class VirtualBot extends createjs.Container {
   }
 
   updatePosition(inputVelocity) {
-    if (this.autopilot) {
+    if (this.autopilot && this.simulation.runSimulation) {
       let target = this.simulation.target;
       let targetAngle = Math.atan2(target.y-this.y, target.x-this.x);
       let botAngle = this.rotation*Math.PI/180;
@@ -44,7 +44,7 @@ class VirtualBot extends createjs.Container {
       this.y += 1*Math.sin(botAngle);
       this.travelDistance += 1;
 
-    } else {
+    } else if (this.simulation.runSimulation) {
       this.rotation += inputVelocity[1]*(inputVelocity[0]||1);
       let radians = (this.rotation)*Math.PI/180;
       this.x += inputVelocity[0]*Math.cos(radians);

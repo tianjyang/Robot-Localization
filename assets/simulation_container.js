@@ -7,6 +7,7 @@ import * as Util from './utils';
 
 class SimulationContainer {
   constructor(stage) {
+    this.runSimulation = false;
     this.sensorNoise = 1;
     this.numParticles = 500;
     this.numMeasures = 10;
@@ -177,17 +178,16 @@ class SimulationContainer {
     };
 
     if (this.ticker) {
-      this.ticker.setPaused(false);
+      this.runSimulation = true;
     } else {
+      this.runSimulation = true;
       this.ticker = createjs.Ticker;
       this.ticker.addEventListener("tick",handleTick.bind(this));
     }
   }
 
   stop () {
-    if (this.ticker) {
-      this.ticker.setPaused(true);
-    }
+      this.runSimulation = false;
   }
 
   addWalls(){
