@@ -19,11 +19,12 @@
     </div>
 
     <div class="big-card white-background shadow">
-      Robot localization is the method a robot uses to determine where it is.
-      This can be tricky to implement because it's possible for a sensor to return an erroneous reading.
-      An erroneous reading means a robot thinks it's in the wrong location and this could be disastrous (imagine if a self-driving car didn't know where it was!).
-      One method to account for this is a particle filter.
-      This is an implementation and visualization of this method.
+      Ever wondered how a robot (like a self driving car) determines where it currently is? Here's a visualization of the method used for the Stanford Self Driving Car.
+      <img src="http://stanford.edu/~cpiech/cs221/img/stanley1.jpg" style="width:100%;height:auto;margin-top:20px"/>
+      <figcaption style="font-size: 10px">
+        source: http://stanford.edu/~cpiech/cs221/img/stanley1.jpg
+      </figcaption>
+
 
 
 
@@ -91,10 +92,12 @@
         </label>
         <div class="button button-shadow" onClick="sim.resetKnowledge()">Reset Knowledge</div>
         <div class="button button-shadow" onClick="sim.kickRobot()">Kick the Robot!</div>
+        <div class="button inline-button button-shadow" onClick="window.sim.run()">Start</div>
+        <div class="button inline-button button-shadow" onClick="showHelp()">Stop</div>
         <div class="button inline-button button-shadow" onClick="showHelp()">Help</div>
       </div>
 
-      <div class="dialog-box directions shadow" id="step1">
+      <div class="dialog-box directions shadow" >
         <p class="material-icons close-button default-primary-color  white-text" style="display:block;">close</p>
         <p class="directions-text">
           The environment contains multiple red dots which respresent possible robot locations. The darker the dot, the more strongly the robot believes it is there.
@@ -102,7 +105,7 @@
         <br /><div class="button next-button button-shadow" onClick="nextStep()">Next</div>
       </div>
 
-      <div class="dialog-box directions shadow" id="step2">
+      <div class="dialog-box directions shadow" >
         <p class="material-icons close-button default-primary-color  white-text" style="display:block;">close</p>
         <p class="directions-text">
           Notice how all the dots are pretty evenly spread out. This means the robot has absolutely no idea where it is.
@@ -110,15 +113,15 @@
         <br /><div class="button next-button button-shadow" onClick="nextStep()">Next</div>
       </div>
 
-      <div class="dialog-box directions shadow" id="step3">
+      <div class="dialog-box directions shadow" >
         <p class="material-icons close-button default-primary-color  white-text" style="display:block;">close</p>
         <p class="directions-text">
-        Now we're going to turn the robot on and it's going to activate it's localization algorithm"
+        Now we're going to turn the robot on and it's going to activate it's localization algorithm.
         </p>
         <br /><div class="button next-button button-shadow" onClick="nextStep();window.sim.run();">Next</div>
       </div>
 
-      <div class="dialog-box directions shadow" id="step4">
+      <div class="dialog-box directions shadow" >
         <p class="material-icons close-button default-primary-color  white-text" style="display:block;">close</p>
         <p class="directions-text">
         Notice there are more dots close to the robot's actual location. This means the robot has a better idea of where it is!
@@ -126,15 +129,31 @@
         <br /><div class="button next-button button-shadow" onClick="nextStep()">Next</div>
       </div>
 
-      <div class="dialog-box directions shadow" id="step5">
+      <div class="dialog-box directions shadow" >
         <p class="material-icons close-button default-primary-color  white-text" style="display:block;">close</p>
         <p class="directions-text">
-        The great thing about this algorithm is it can update it's knowledge after it's been accidentally knocked out of place.
+        In this simulation, the robot is measuring distances from the wall and using it to determine how likely a particle is a correct representation of it's location.
         </p>
         <br /><div class="button next-button button-shadow" onClick="nextStep()">Next</div>
       </div>
 
-      <div class="dialog-box directions shadow" id="step6">
+      <div class="dialog-box directions shadow" >
+        <p class="material-icons close-button default-primary-color  white-text" style="display:block;">close</p>
+        <p class="directions-text">
+        If it is likely to be correct, the robot retains this particle in its knowledge. If it is unlikely to be correct, the robot forget's it and replaces it with another guess.
+        </p>
+        <br /><div class="button next-button button-shadow" onClick="nextStep()">Next</div>
+      </div>
+
+      <div class="dialog-box directions shadow" >
+        <p class="material-icons close-button default-primary-color  white-text" style="display:block;">close</p>
+        <p class="directions-text">
+        The great thing about this algorithm is it can update it's knowledge after it's been "kidnapped" or knocked out of place.
+        </p>
+        <br /><div class="button next-button button-shadow" onClick="nextStep()">Next</div>
+      </div>
+
+      <div class="dialog-box directions shadow" >
         <p class="material-icons close-button default-primary-color  white-text" style="display:block;">close</p>
         <p class="directions-text">
         Now we're going to kick the robot and watch it re-localize itself!
@@ -142,7 +161,7 @@
         <br /><div class="button next-button button-shadow" onClick="nextStep(); window.sim.kickRobot()">Kick the Robot</div>
       </div>
 
-      <div class="dialog-box directions shadow" id="step6">
+      <div class="dialog-box directions shadow" >
         <p class="material-icons close-button default-primary-color  white-text" style="display:block;">close</p>
         <p class="directions-text">
         Play with the sliders and see how it re-localizes itself after a kick! (I would start by increasing the number of measurements!)

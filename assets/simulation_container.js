@@ -172,11 +172,22 @@ class SimulationContainer {
       } else {
         this.robot.updatePosition(this.handleKeyboard());
       }
-      this.pickNewTarget()
+      this.pickNewTarget();
       this.stage.update();
     };
-    this.ticker = createjs.Ticker;
-    this.ticker.addEventListener("tick",handleTick.bind(this));
+
+    if (this.ticker) {
+      this.ticker.setPaused(false);
+    } else {
+      this.ticker = createjs.Ticker;
+      this.ticker.addEventListener("tick",handleTick.bind(this));
+    }
+  }
+
+  stop () {
+    if (this.ticker) {
+      this.ticker.setPaused(true);
+    }
   }
 
   addWalls(){
